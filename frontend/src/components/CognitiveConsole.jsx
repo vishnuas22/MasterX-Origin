@@ -1,44 +1,48 @@
-// CognitiveConsole.jsx
-
-import React, { useRef, useEffect } from "react";
+// src/components/CognitiveConsole.jsx
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-const CognitiveConsole = ({ entries = [] }) => {
-  const scrollRef = useRef();
+const CognitiveConsole = () => {
+  const [logs, setLogs] = useState([
+    "Initializing Neural Synapses...",
+    "Loading Conscious Pathways...",
+    "Awaiting user stimulus...",
+  ]);
 
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [entries]);
+  const [input, setInput] = useState("");
+
+  const handleCommand = (e) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+    setLogs((prev) => [...prev, `> ${input}`, "🔍 Processing request..."]);
+    setInput("");
+    // Insert logic to simulate AI response here
+  };
 
   return (
     <motion.div
-      className="w-full max-w-5xl h-[320px] mx-auto bg-zinc-950/90 border border-white/10 rounded-2xl overflow-hidden shadow-xl backdrop-blur-md"
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.4, duration: 0.8 }}
+      className="bg-black bg-opacity-50 rounded-2xl p-6 border border-cyan-400 text-green-400 font-mono shadow-xl h-[500px] overflow-y-auto space-y-2"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
     >
-      <div
-        ref={scrollRef}
-        className="p-4 overflow-y-auto h-full space-y-2 text-green-300 font-mono text-sm"
-      >
-        {entries.map((entry, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: idx * 0.02 }}
-          >
-            {entry.timestamp && (
-              <span className="text-xs text-zinc-500 mr-2">
-                [{entry.timestamp}]
-              </span>
-            )}
-            {entry.message}
-          </motion.div>
+      <div className="text-lg font-bold text-cyan-300 mb-4">
+        🧠 Cognitive Console Interface
+      </div>
+      <div className="h-[350px] overflow-y-scroll pr-2 custom-scroll">
+        {logs.map((log, idx) => (
+          <div key={idx} className="text-sm leading-relaxed animate-fadeIn">
+            {log}
+          </div>
         ))}
       </div>
+      <form onSubmit={handleCommand} className="mt-4">
+        <input
+          className="w-full bg-black border border-cyan-500 text-green-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-cyan-500"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="> Engage thought protocol..."
+        />
+      </form>
     </motion.div>
   );
 };
