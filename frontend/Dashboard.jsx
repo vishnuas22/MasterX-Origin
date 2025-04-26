@@ -1,54 +1,79 @@
-// frontend/src/pages/Dashboard.jsx
-
 import React from "react";
-import { motion } from "framer-motion";
 import NeuroCardGrid from "../components/NeuroCardGrid";
+import CognitiveConsole from "../components/CognitiveConsole";
+import NeuroPulse from "../components/NeuroPulse";
+import MoodAura from "../components/MoodAura";
+import NeuroCommand from "../components/NeuroCommand";
+import NeuralDashboard from "../components/NeuralDashboard";
 import NeuroStatChart from "../components/NeuroStatChart";
-import CognitiveConsole from "@/components/CognitiveConsole";
-import NeuroCognitiveHUD from "../components/NeuroCognitiveHUD";
-
-
+import NeuroCognitiveHUD from "../components/NeuroCognitiveHUD";  // This should match the correct relative path.
+import MindPulse from "../components/MindPulse";
+import "../index.css";
+import { motion } from "framer-motion";
 
 const Dashboard = () => {
   return (
-    <motion.div
-      className="min-h-screen w-full bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] text-white p-6 overflow-y-auto"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1.2 }}
-    >
-      {/* 🚀 Title */}
-      <motion.h1
-        className="text-4xl font-extrabold tracking-tight mb-12 text-center bg-gradient-to-r from-cyan-400 to-purple-600 bg-clip-text text-transparent"
-        initial={{ y: -30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8 }}
-      >
-        🧠 Welcome to MasterX Core Dashboard
-      </motion.h1>
+    <div className="min-h-screen w-full bg-black text-white relative overflow-hidden">
+      {/* === 🌌 Starfield Background === */}
+      <div className="absolute inset-0 -z-10">
+        <div className="stars"></div>
+        <div className="twinkling"></div>
+        <div className="clouds"></div>
+      </div>
 
-      <section className="mt-16">
-        <CognitiveConsole />
-      </section>
+      <main className="px-6 md:px-12 py-10 space-y-8">
+        <motion.h1 
+          className="text-center text-4xl md:text-6xl font-techno font-bold neon-text"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+        >
+          🌠 Welcome to the Future: MasterX Dashboard
+        </motion.h1>
 
-      <NeuroCognitiveHUD mode="Console" signal="Stable" status="Connected" />
+        <section className="grid md:grid-cols-3 gap-6">
+          <motion.div className="glass p-4" whileHover={{ scale: 1.02 }}>
+            <NeuroCognitiveHUD/>
+          </motion.div>
 
+          <motion.div className="glass p-4" whileHover={{ scale: 1.02 }}>
+            <MindPulse />
+          </motion.div>
 
-      {/* 🧩 Neuro Card Grid */}
-      <section className="mb-16">
-        <NeuroCardGrid />
-      </section>
+          <motion.div className="glass p-4" whileHover={{ scale: 1.02 }}>
+            <NeuroStatChart />
+          </motion.div>
+        </section>
 
-      {/* 📊 Neural Stats Chart */}
-      <section className="mb-24">
-        <NeuroStatChart />
-      </section>
+        <section className="grid md:grid-cols-2 gap-6">
+          <motion.div className="glass p-4" whileHover={{ scale: 1.02 }}>
+            <NeuroPulse />
+          </motion.div>
 
-      {/* ⚙️ Footer Placeholder */}
-      <footer className="text-sm text-gray-400 text-center">
-        Built with 💡 and Synaptic Fire by Ghost & MasterX
-      </footer>
-    </motion.div>
+          <motion.div className="glass p-4" whileHover={{ scale: 1.02 }}>
+            <MoodAura />
+          </motion.div>
+        </section>
+
+        <section className="grid md:grid-cols-2 gap-6">
+          <motion.div className="glass p-4" whileHover={{ scale: 1.02 }}>
+            <CognitiveConsole />
+          </motion.div>
+
+          <motion.div className="glass p-4" whileHover={{ scale: 1.02 }}>
+            <NeuroCommand />
+          </motion.div>
+        </section>
+
+        <motion.div className="glass p-4" whileHover={{ scale: 1.02 }}>
+          <NeuralDashboard />
+        </motion.div>
+
+        <motion.div className="glass p-4" whileHover={{ scale: 1.02 }}>
+          <NeuroCardGrid />
+        </motion.div>
+      </main>
+    </div>
   );
 };
 
