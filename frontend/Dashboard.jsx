@@ -11,6 +11,30 @@ import MindPulse from "../components/MindPulse";
 import "../index.css";
 import { motion } from "framer-motion";
 
+
+const dummyStats = [
+  { time: "10:00", focus: 78, dopamine: 65, progress: 20 },
+  { time: "10:30", focus: 82, dopamine: 70, progress: 35 },
+  { time: "11:00", focus: 85, dopamine: 75, progress: 50 },
+  { time: "11:30", focus: 80, dopamine: 68, progress: 65 },
+  { time: "12:00", focus: 88, dopamine: 72, progress: 80 },
+  { time: "12:30", focus: 90, dopamine: 77, progress: 95 },
+];
+
+
+const focusData = dummyStats.map((stat) => ({
+  time: stat.time,
+  focus: stat.focus,
+}));
+
+const dopamineSurges = dummyStats.map((stat) => ({
+  time: stat.time,
+  intensity: stat.dopamine,
+}));
+
+const missionProgress = dummyStats[dummyStats.length - 1].progress;
+
+
 const Dashboard = () => {
   return (
     <div className="min-h-screen w-full bg-black text-white relative overflow-hidden">
@@ -38,6 +62,22 @@ const Dashboard = () => {
 
           <motion.div className="glass p-4" whileHover={{ scale: 1.02 }}>
             <MindPulse />
+            {/* <MoodAura currentState={currentState} />   */}
+            <NeuroStatChart data={dummyStats} />
+
+
+            <div className="relative z-10 p-4 max-w-7xl mx-auto">
+            <NeuroCognitiveHUD
+             focusData={focusData}
+             dopamineSurges={dopamineSurges}
+             missionProgress={missionProgress}
+             currentState={currentState}
+            />
+
+            <NeuroCardGrid /> 
+
+            <CognitiveConsole />
+            </div>
           </motion.div>
 
           <motion.div className="glass p-4" whileHover={{ scale: 1.02 }}>
@@ -52,6 +92,11 @@ const Dashboard = () => {
 
           <motion.div className="glass p-4" whileHover={{ scale: 1.02 }}>
             <MoodAura />
+
+            <MoodAura currentState={currentState} />
+              <div className="relative z-10">
+    {/* HUDs and Grids */}
+  </div>
           </motion.div>
         </section>
 
