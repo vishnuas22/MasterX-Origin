@@ -29,12 +29,19 @@ body {
 
 /* ========== 🧊 Glass Morphism ========== */
 .glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(18px);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 0 20px rgba(0, 255, 170, 0.08);
-  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2), 0 0 40px rgba(255, 0, 255, 0.2);
+  transition: all 0.4s ease;
 }
+
+.glass:hover {
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.5), 0 0 60px rgba(255, 0, 255, 0.5);
+  transform: translateY(-4px) scale(1.02);
+}
+
 
 /* ========== ⚡ Neon Text Glow ========== */
 .neon-text {
@@ -116,4 +123,70 @@ body {
   to {
     transform: translate(100px, 200px);
   }
+}
+
+
+
+
+
+
+
+
+/* Background Animations */
+@keyframes gradient-x {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 6s ease infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse 8s infinite;
+}
+
+
+
+
+.stars, .twinkling, .clouds {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: block;
+}
+
+.stars {
+  background: url('/your/starfield.png') repeat;
+  animation: moveStars 200s linear infinite;
+}
+
+.twinkling {
+  background: url('/your/twinkling.png') repeat;
+  animation: moveTwinkling 400s linear infinite;
+  opacity: 0.5;
+}
+
+.clouds {
+  background: url('/your/clouds.png') repeat;
+  animation: moveClouds 600s linear infinite;
+  opacity: 0.1;
+}
+
+@keyframes moveStars {
+  from { background-position: 0 0; }
+  to { background-position: -10000px 5000px; }
+}
+
+@keyframes moveTwinkling {
+  from { background-position: 0 0; }
+  to { background-position: 10000px 0; }
+}
+
+@keyframes moveClouds {
+  from { background-position: 0 0; }
+  to { background-position: -10000px 0; }
 }
