@@ -1,8 +1,10 @@
-// MasterXHome.jsx
+// MasterX/frontend/src/MasterXHome.jsx
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { UploadCloud, Mic, ArrowRight, Search, ChevronDown } from "lucide-react";
-import classNames from "classnames";
+import { UploadCloud, Mic, ArrowRight } from "lucide-react";
+import { BrainCircuit } from "lucide-react";
+
 import Sidebar from "../components/Sidebar";
 import NeuroCardGrid from "../components/NeuroCardGrid";
 import NeuroPulse from "../components/NeuroPulse";
@@ -22,95 +24,64 @@ const MasterXHome = () => {
   return (
     <div className="flex w-full min-h-screen bg-black text-white font-sans overflow-hidden relative">
       {/* Sidebar */}
-      <motion.aside
-        initial={{ x: -300 }}
-        animate={{ x: isSidebarOpen ? 0 : -300 }}
-        transition={{ duration: 0.4 }}
-        className="fixed z-50 top-0 left-0 h-screen w-64 px-6 py-6 bg-white/10 border-r border-white/20 shadow-2xl backdrop-blur-xl flex flex-col justify-between"
-      >
-        <div className="flex flex-col gap-6">
-          <div className="flex justify-between items-center">
-            <h1 className="text-xl font-bold text-cyan-400">MasterX</h1>
-            <button
-              onClick={() => setSidebarOpen(false)}
-              className="text-white/50 hover:text-cyan-300 transition"
-            >
-              ×
-            </button>
-          </div>
-
-          <div className="relative">
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-sm text-white/70">Mode</span>
-              <ChevronDown className="h-4 w-4 text-white/50" />
-            </div>
-            <select
-              value={mode}
-              onChange={(e) => setMode(e.target.value)}
-              className="w-full p-2 bg-white/10 border border-white/20 rounded-xl text-sm text-white focus:outline-none"
-            >
-              {LearningModes.map((m) => (
-                <option key={m} className="bg-black text-white">
-                  {m}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="flex flex-col gap-4 mt-8">
-            <button className="flex items-center gap-2 text-white/70 hover:text-cyan-400">
-              <Search size={18} /> Search
-            </button>
-            <button className="flex items-center gap-2 text-white/70 hover:text-cyan-400">
-              🔆 Focus Waves
-            </button>
-            <button className="flex items-center gap-2 text-white/70 hover:text-cyan-400">
-              ⚡ Dopamine Surge
-            </button>
-            <button className="flex items-center gap-2 text-white/70 hover:text-cyan-400">
-              🧠 Neural Drive
-            </button>
-          </div>
-        </div>
-        <div className="text-xs text-white/30">v3.0 · NeuroUI</div>
-      </motion.aside>
+      <Sidebar
+        isOpen={isSidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        learningModes={LearningModes}
+        selectedMode={mode}
+        onModeChange={setMode}
+        additionalTools={[
+          { label: "Focus Waves", icon: "🔆" },
+          { label: "Dopamine Surge", icon: "⚡" },
+          { label: "Neural Drive", icon: "🧠" },
+        ]}
+      />
 
       {/* Sidebar Toggle Button */}
       {!isSidebarOpen && (
-        <button
+        <motion.button
           onClick={() => setSidebarOpen(true)}
-          className="absolute top-4 left-4 z-40 text-cyan-300 hover:text-white"
+          className="fixed top-6 left-6 z-50 p-4 rounded-full bg-white/10 border border-white/20 shadow-lg text-white backdrop-blur-lg"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4 }}
         >
-          ☰
-        </button>
+          <motion.div
+            animate={{ rotate: [0, 360] }}
+            transition={{ repeat: Infinity, duration: 6, ease: "linear" }}
+            className="text-cyan-300"
+          >
+            <BrainCircuit size={22} />
+          </motion.div>
+        </motion.button>
       )}
 
-      {/* Main Panel */}
-      <main className="flex flex-col items-center justify-start w-full min-h-screen pt-24 px-6 md:px-24 lg:px-48 text-center transition-all">
+      {/* Main Content Area */}
+      <main className="ml-[250px] w-full max-w-6xl px-6 pt-20 pb-12 transition-all duration-300">
+        {/* Heading */}
         <motion.h1
-          className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-400"
-          initial={{ opacity: 0, y: -40 }}
+          className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-400"
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
         >
           Welcome to MasterX
         </motion.h1>
 
         <motion.p
-          className="mt-6 text-lg text-white/60"
+          className="mt-4 text-white/60 text-lg"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.5 }}
+          transition={{ delay: 0.2 }}
         >
           Your AGI-powered interface for ultra-focused learning.
         </motion.p>
 
-        {/* Input Section */}
+        {/* Search Bar */}
         <motion.div
-          className="relative mt-12 w-full max-w-3xl flex items-center"
+          className="relative mt-10 w-full max-w-3xl"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.4 }}
+          transition={{ delay: 0.4 }}
         >
           <input
             type="text"
@@ -119,37 +90,46 @@ const MasterXHome = () => {
             onChange={(e) => setInput(e.target.value)}
             className="w-full px-6 py-4 pr-20 rounded-full text-white text-lg bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-cyan-400"
           />
-          <div className="absolute right-4 flex gap-3 items-center">
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 flex gap-3">
             <UploadCloud size={20} className="text-white/60 hover:text-cyan-300 cursor-pointer" />
             <Mic size={20} className="text-white/60 hover:text-cyan-300 cursor-pointer" />
             <ArrowRight size={22} className="text-cyan-400 cursor-pointer" />
           </div>
         </motion.div>
 
-        {/* Upload Prompt */}
+        {/* Upload Button */}
         <motion.button
-          whileHover={{ scale: 1.05 }}
           className="mt-6 flex items-center gap-2 text-cyan-300 hover:text-white"
+          whileHover={{ scale: 1.05 }}
         >
           <UploadCloud /> Upload files & docs
         </motion.button>
 
-        {/* Modules Section */}
-        <div
-          className={classNames(
-            "mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-500",
-            showModules ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
-          )}
-          onMouseEnter={() => setShowModules(true)}
-          onMouseLeave={() => setShowModules(false)}
+        {/* Toggle Tools Button */}
+        <motion.button
+          onClick={() => setShowModules(!showModules)}
+          className="mt-10 px-6 py-3 rounded-full bg-white/10 border border-white/20 hover:bg-white/20 text-white transition-all"
+          whileHover={{ scale: 1.05 }}
         >
-          <NeuroStatChart />
-          <NeuroPulse />
-          <CognitiveConsole />
-          <NeuroCardGrid />
-          <MoodAura />
-          <NeuroCommand />
-        </div>
+          {showModules ? "Hide Tools" : "Show Tools"}
+        </motion.button>
+
+        {/* Tools Section (Hidden until toggled) */}
+        {showModules && (
+          <motion.div
+            className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+          >
+            <NeuroStatChart />
+            <NeuroPulse />
+            <CognitiveConsole />
+            <NeuroCardGrid />
+            <MoodAura />
+            <NeuroCommand />
+          </motion.div>
+        )}
       </main>
     </div>
   );
