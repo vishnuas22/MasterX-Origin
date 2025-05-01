@@ -1,44 +1,98 @@
 // CognitiveConsole.jsx
 
-import React, { useRef, useEffect } from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Terminal, CornerDownLeft } from "lucide-react";
 
-const CognitiveConsole = ({ entries = [] }) => {
-  const scrollRef = useRef();
+const CognitiveConsole = () => {
+  const [input, setInput] = useState("");
+  const [messages, setMessages] = useState([
+    { type: "ai", text: "Welcome to the Cognitive Console. 🌌 Type /help to begin." },
+  ]);
 
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  const handleCommand = (command) => {
+    let response = "Unknown command. Type /help for assistance.";
+
+    switch (command.trim().toLowerCase()) {
+      case "/help":
+        response = "Available commands: /status, /focus, /dopamine, /mission";
+        break;
+      case "/status":
+        response = "All systems nominal. Cognitive functions optimal. 🧠";
+        break;
+      case "/focus":
+        response = "Focus levels at 92%. You're in a deep work state. 🔥";
+        break;
+      case "/dopamine":
+        response = "Dopamine surges stable. Motivation at peak levels. ⚡";
+        break;
+      case "/mission":
+        response = "Mission Progress: 72.4% — nearing the goal. 🚀";
+        break;
+      default:
+        break;
     }
-  }, [entries]);
+
+    setMessages((prev) => [
+      ...prev,
+      { type: "user", text: command },
+      { type: "ai", text: response },
+    ]);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+    handleCommand(input);
+    setInput("");
+  };
 
   return (
     <motion.div
-      className="w-full max-w-5xl h-[320px] mx-auto bg-zinc-950/90 border border-white/10 rounded-2xl overflow-hidden shadow-xl backdrop-blur-md"
+      className="w-full bg-gradient-to-br from-[#0f172a] to-[#1e293b] p-6 mt-6 rounded-2xl border border-cyan-800/50 shadow-[0_0_60px_rgba(0,255,255,0.07)] backdrop-blur-md overflow-hidden relative"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.4, duration: 0.8 }}
+      transition={{ delay: 0.7, duration: 0.9 }}
     >
-      <div
-        ref={scrollRef}
-        className="p-4 overflow-y-auto h-full space-y-2 text-green-300 font-mono text-sm"
-      >
-        {entries.map((entry, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: idx * 0.02 }}
-          >
-            {entry.timestamp && (
-              <span className="text-xs text-zinc-500 mr-2">
-                [{entry.timestamp}]
-              </span>
-            )}
-            {entry.message}
-          </motion.div>
-        ))}
+      <div className="flex items-center gap-2 mb-4 text-cyan-300">
+        <Terminal className="animate-pulse" size={20} />
+        <h2 className="text-lg font-bold">Cognitive Console</h2>
       </div>
+
+      <div className="h-64 overflow-y-auto pr-2 mb-4 scrollbar-thin scrollbar-thumb-cyan-700/50 scrollbar-track-transparent">
+        <AnimatePresence>
+          {messages.map((msg, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className={`mb-2 text-sm ${
+                msg.type === "user" ? "text-emerald-400 text-right" : "text-cyan-400 text-left"
+              }`}
+            >
+              {msg.text}
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+
+      <form onSubmit={handleSubmit} className="flex items-center gap-2">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Enter command..."
+          className="flex-1 p-2 bg-zinc-800/60 border border-cyan-700/30 text-cyan-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 placeholder:text-cyan-500/50"
+        />
+        <button
+          type="submit"
+          className="p-2 bg-cyan-700 hover:bg-cyan-600 rounded-md text-white"
+        >
+          <CornerDownLeft size={18} />
+        </button>
+      </form>
     </motion.div>
   );
 };

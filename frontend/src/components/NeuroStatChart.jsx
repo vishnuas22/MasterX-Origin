@@ -1,86 +1,59 @@
-// frontend/src/components/NeuroStatChart.jsx
-
 import React from "react";
-import {
-  Radar,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  CartesianGrid,
-} from "recharts";
 import { motion } from "framer-motion";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
-const radarData = [
-  { stat: "Focus", value: 88 },
-  { stat: "Mood", value: 72 },
-  { stat: "Energy", value: 65 },
-  { stat: "Retention", value: 91 },
-  { stat: "Flow", value: 78 },
-];
-
-const lineData = [
-  { time: "Mon", focus: 65 },
-  { time: "Tue", focus: 72 },
-  { time: "Wed", focus: 81 },
-  { time: "Thu", focus: 78 },
-  { time: "Fri", focus: 88 },
-  { time: "Sat", focus: 92 },
-  { time: "Sun", focus: 85 },
-];
-
-const NeuroStatChart = () => {
+const NeuroStatChart = ({ data = [] }) => {
   return (
     <motion.div
-      className="grid grid-cols-1 md:grid-cols-2 gap-10 p-6 w-full max-w-6xl mx-auto"
-      initial={{ opacity: 0, y: 30 }}
+      className="w-full max-w-5xl mx-auto p-6 mt-8 rounded-2xl bg-gradient-to-br from-[#0f172a]/70 to-[#1e293b]/80 border border-cyan-700/40 shadow-[0_0_40px_rgba(0,255,255,0.2)] backdrop-blur-md"
+      initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
+      transition={{ delay: 0.6, duration: 1 }}
     >
-      {/* Radar Chart */}
-      <div className="bg-white/5 p-6 rounded-2xl border border-white/10 shadow-xl backdrop-blur-md">
-        <h2 className="text-white text-lg font-semibold mb-4">🧠 Cognitive Profile</h2>
-        <ResponsiveContainer width="100%" height={300}>
-          <RadarChart data={radarData}>
-            <PolarGrid stroke="#444" />
-            <PolarAngleAxis dataKey="stat" stroke="#fff" />
-            <Radar
-              name="Ghost"
-              dataKey="value"
-              stroke="#00e3ff"
-              fill="#00e3ff"
-              fillOpacity={0.6}
-            />
-          </RadarChart>
-        </ResponsiveContainer>
-      </div>
+      <h2 className="text-cyan-400 font-bold mb-4 text-lg tracking-widest flex items-center gap-2">
+        🧠 NeuroStat Real-Time
+      </h2>
 
-      {/* Line Chart */}
-      <div className="bg-white/5 p-6 rounded-2xl border border-white/10 shadow-xl backdrop-blur-md">
-        <h2 className="text-white text-lg font-semibold mb-4">📈 Focus Trend</h2>
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={lineData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-            <XAxis dataKey="time" stroke="#ccc" />
-            <YAxis stroke="#ccc" />
-            <Tooltip
-              contentStyle={{ backgroundColor: "#111", border: "none", color: "#fff" }}
-            />
-            <Line
-              type="monotone"
-              dataKey="focus"
-              stroke="#10b981"
-              strokeWidth={2}
-              dot={{ r: 5, fill: "#10b981" }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
+      <ResponsiveContainer width="100%" height={300}>
+        <LineChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+          <XAxis dataKey="time" stroke="#94a3b8" />
+          <YAxis domain={[0, 100]} stroke="#94a3b8" />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: "#0f172a",
+              borderColor: "#38bdf8",
+              borderWidth: 1,
+              color: "#fff",
+              borderRadius: "8px",
+            }}
+          />
+          <Line
+            type="monotone"
+            dataKey="focus"
+            stroke="#0ea5e9"
+            strokeWidth={3}
+            dot={{ r: 5, stroke: "#0ea5e9", fill: "#0ea5e9", strokeWidth: 2 }}
+            activeDot={{ r: 8 }}
+          />
+          <Line
+            type="monotone"
+            dataKey="dopamine"
+            stroke="#facc15"
+            strokeWidth={3}
+            dot={{ r: 5, stroke: "#facc15", fill: "#facc15", strokeWidth: 2 }}
+            activeDot={{ r: 8 }}
+          />
+          <Line
+            type="monotone"
+            dataKey="progress"
+            stroke="#22c55e"
+            strokeWidth={3}
+            dot={{ r: 5, stroke: "#22c55e", fill: "#22c55e", strokeWidth: 2 }}
+            activeDot={{ r: 8 }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
     </motion.div>
   );
 };
