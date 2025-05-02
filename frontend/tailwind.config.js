@@ -1,57 +1,45 @@
+// tailwind.config.js
 module.exports = {
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-    "./public/index.html",
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}", // Ensure all component files are included
   ],
   theme: {
-
-    
     extend: {
-      colors: {
-        'neon-green': '#39ff14',
-        'neon-blue': '#00ffff',
-        'neon-pink': '#ff6ec7',
-      },
 
-      extend: {
-        keyframes: {
-          twinkle: {
-            "0%, 100%": { opacity: 0.3 },
-            "50%": { opacity: 1 },
-          },
+        backgroundImage: {
+          'masterx-bg': 'linear-gradient(to right, #0f2027, #203a43, #2c5364)',
         },
-        animation: {
-          twinkle: "twinkle 3s infinite",
-        },
-      },
 
-      extend: {
-        animation: {
-          mood: "gradientShift 10s ease infinite",
-        },
-        keyframes: {
-          gradientShift: {
-            "0%, 100%": { backgroundPosition: "0% 50%" },
-            "50%": { backgroundPosition: "100% 50%" },
-          },
-        },
-      },
-      
-      
       fontFamily: {
-        techno: ['Orbitron', 'sans-serif'],
-        futuristic: ['Orbitron', 'system-ui'], // extra alias if you want
+        sans: [
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          'sans-serif',
+        ],
       },
-      backgroundImage: {
-        space: "url('/src/assets/starfield.gif')",
+
+      
+
+      boxShadow: {
+        glow: '0 0 20px rgba(0, 255, 255, 0.2)',
       },
+      backdropBlur: {
+        lg: '20px',
+      },
+      
       animation: {
-        spinSlow: 'spin 30s linear infinite',
+        'pulse-slow': 'pulse 4s ease-in-out infinite',
+        'float': 'float 3s ease-in-out infinite',
       },
       keyframes: {
-        flicker: {
-          '0%, 100%': { opacity: 1 },
-          '50%': { opacity: 0.4 },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-6px)' },
         },
       },
     },
