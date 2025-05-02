@@ -1,17 +1,20 @@
+// App.jsx
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import MasterXHome from "./pages/MasterXHome";
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Dashboard from './pages/Dashboard.jsx';
+import './index.css';
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Redirect from / to /dashboard */}
-        <Route path="/" element={<Navigate to="/dashboard" />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/" element={<MasterXHome />} />
       </Routes>
     </Router>
   );
 }
 
 export default App;
+
+
+
