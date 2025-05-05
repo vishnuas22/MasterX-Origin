@@ -10,6 +10,10 @@ import NeuroPulse from "../components/NeuroPulse";
 import NeuroStatChart from "../components/NeuroStatChart";
 import NeuroStatGrid from "../components/NeuroStatGrid";
 import NeuroCognitiveContainer from "../components/NeuroCognitiveContainer";
+import MicVoiceInput from "../components/MicVoiceInput";
+import ModeToggle from "../components/ui/ModeToggle";
+
+
 
 export default function MasterXHome() {
   return (
@@ -68,6 +72,8 @@ export default function MasterXHome() {
         <NeuroCommand />
         <NeuroStatGrid />
         <NeuroCognitiveContainer />
+        <ModeToggle />
+        <MicVoiceInput />
       </section>
 
       {/* Footer */}
