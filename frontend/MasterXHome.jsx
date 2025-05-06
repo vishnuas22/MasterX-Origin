@@ -1,7 +1,7 @@
-// MasterXHome.jsx - Final Futuristic Version
+// MasterXHome.jsx - Final Futuristic Version (Upgraded with ChatFeed)
 import React from "react";
 import NeuroCardGrid from "../components/NeuroCardGrid";
-import CognitiveConsole from "../components/CognitiveConsole";
+// import CognitiveConsole from "../components/CognitiveConsole";
 import MindPulse from "../components/MindPulse";
 import MoodAura from "../components/MoodAura";
 import NeuralDashboard from "../components/NeuralDashboard";
@@ -10,10 +10,9 @@ import NeuroPulse from "../components/NeuroPulse";
 import NeuroStatChart from "../components/NeuroStatChart";
 import NeuroStatGrid from "../components/NeuroStatGrid";
 import NeuroCognitiveContainer from "../components/NeuroCognitiveContainer";
-import MicVoiceInput from "../components/MicVoiceInput";
+import MicVoiceInput from "../components/ui/MicVoiceInput";
 import ModeToggle from "../components/ui/ModeToggle";
-
-
+import ChatFeed from "../components/ChatFeed";
 
 export default function MasterXHome() {
   return (
@@ -58,22 +57,26 @@ export default function MasterXHome() {
           <span className="px-3 py-1 border border-white/20 rounded-full">⚡ Dopamine Surge</span>
           <span className="px-3 py-1 border border-white/20 rounded-full">🧬 Neural Drive</span>
         </div>
+
+        {/* 🔁 Chat Feed (Below search) */}
+        <div className="mt-12 w-full max-w-4xl">
+          <ChatFeed />
+        </div>
       </main>
 
       {/* Neuro Components Grid */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-8 py-10">
+        <NeuroCommand />
+        <ModeToggle />    
+        <MicVoiceInput />
+        <NeuroCognitiveContainer />
+        <NeuralDashboard />
         <NeuroCardGrid />
-        <CognitiveConsole />
-        <MindPulse />
+        {/* <MindPulse /> */}
         <MoodAura />
         <NeuroPulse />
         <NeuroStatChart />
-        <NeuralDashboard />
-        <NeuroCommand />
         <NeuroStatGrid />
-        <NeuroCognitiveContainer />
-        <ModeToggle />
-        <MicVoiceInput />
       </section>
 
       {/* Footer */}
