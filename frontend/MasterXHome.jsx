@@ -13,6 +13,8 @@ import NeuroCognitiveContainer from "../components/NeuroCognitiveContainer";
 import MicVoiceInput from "../components/ui/MicVoiceInput";
 import ModeToggle from "../components/ui/ModeToggle";
 import ChatFeed from "../components/ChatFeed";
+import ChatInput from "../components/ChatInput";
+import useChatStream from "../hooks/useChatStream";
 
 export default function MasterXHome() {
   return (
@@ -30,6 +32,7 @@ export default function MasterXHome() {
             <option>AGI Research</option>
             <option>Neuro Learning</option>
             <option>Focus Mode</option>
+
           </select>
           <button className="text-sm bg-indigo-700 hover:bg-indigo-600 px-4 py-2 rounded-full shadow-lg transition-all">
             🔍 Ask MasterX
@@ -61,6 +64,12 @@ export default function MasterXHome() {
         {/* 🔁 Chat Feed (Below search) */}
         <div className="mt-12 w-full max-w-4xl">
           <ChatFeed />
+
+          // Add below your central tools or wherever feels natural
+          <ChatFeed messages={messages} />
+          <ChatInput onSend={sendMessage} loading={loading} />
+
+          
         </div>
       </main>
 
