@@ -1,9 +1,13 @@
-// components/ChatFeed.jsx — Full-featured Chat UI with LLM Streaming, TTS, Upload
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Mic, UploadCloud, Volume2, Loader } from "lucide-react";
 
 const ChatFeed = () => {
+  // Session-based setup
+  const [sessionId] = useState(() => {
+    return localStorage.getItem("masterx-session") || generateSessionId();
+  });
+
   const [messages, setMessages] = useState([
     { role: "system", text: "Welcome to MasterX. Ask anything." },
   ]);
@@ -12,7 +16,22 @@ const ChatFeed = () => {
   const [isUploading, setIsUploading] = useState(false);
   const chatEndRef = useRef(null);
 
+  // Generate unique session ID and store
+  function generateSessionId() {
+    const id = `session-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    localStorage.setItem("masterx-session", id);
+    return id;
+  }
+
+  // Load messages from session
   useEffect(() => {
+    const stored = localStorage.getItem(sessionId);
+    if (stored) setMessages(JSON.parse(stored));
+  }, [sessionId]);
+
+  // Save messages on update
+  useEffect(() => {
+    localStorage.setItem(sessionId, JSON.stringify(messages));
     scrollToBottom();
   }, [messages]);
 
@@ -29,12 +48,10 @@ const ChatFeed = () => {
   };
 
   const fetchLLMResponse = async (chatHistory) => {
-    const controller = new AbortController();
     const response = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ messages: chatHistory }),
-      signal: controller.signal,
     });
 
     if (!response.body) return;
@@ -114,34 +131,22 @@ const ChatFeed = () => {
         <div ref={chatEndRef} />
       </div>
 
-      {/* Expanding ChatGPT-style Input Bar */}
-      <div className="relative flex items-end w-full gap-2">
-        <textarea
+      {/* Input Bar */}
+      <div className="relative flex items-center w-full">
+        <input
+          type="text"
+          placeholder="Ask something..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onInput={(e) => {
-            e.target.style.height = "auto";
-            e.target.style.height = `${e.target.scrollHeight}px`;
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              handleSend();
-            }
-          }}
-          rows={1}
-          placeholder="Ask something..."
-          className="flex-grow px-4 py-3 rounded-lg resize-none bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 max-h-40 overflow-y-auto"
-          style={{ lineHeight: "1.5" }}
+          className="flex-grow px-4 py-3 rounded-l-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
         />
         <button
           onClick={handleSend}
-          className="px-5 py-3 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 self-end"
+          className="px-5 py-3 bg-cyan-500 text-white rounded-r-lg hover:bg-cyan-600"
         >
           Send
         </button>
       </div>
-
 
       {/* Controls */}
       <div className="flex gap-4 items-center mt-4">
