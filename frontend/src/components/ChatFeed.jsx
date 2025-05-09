@@ -114,22 +114,34 @@ const ChatFeed = () => {
         <div ref={chatEndRef} />
       </div>
 
-      {/* Input Bar */}
-      <div className="relative flex items-center w-full">
-        <input
-          type="text"
-          placeholder="Ask something..."
+      {/* Expanding ChatGPT-style Input Bar */}
+      <div className="relative flex items-end w-full gap-2">
+        <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="flex-grow px-4 py-3 rounded-l-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
+          onInput={(e) => {
+            e.target.style.height = "auto";
+            e.target.style.height = `${e.target.scrollHeight}px`;
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleSend();
+            }
+          }}
+          rows={1}
+          placeholder="Ask something..."
+          className="flex-grow px-4 py-3 rounded-lg resize-none bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 max-h-40 overflow-y-auto"
+          style={{ lineHeight: "1.5" }}
         />
         <button
           onClick={handleSend}
-          className="px-5 py-3 bg-cyan-500 text-white rounded-r-lg hover:bg-cyan-600"
+          className="px-5 py-3 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 self-end"
         >
           Send
         </button>
       </div>
+
 
       {/* Controls */}
       <div className="flex gap-4 items-center mt-4">
