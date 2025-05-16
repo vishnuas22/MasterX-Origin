@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Mic, UploadCloud, Volume2, Loader } from "lucide-react";
+import ModeSelector from "./ModeSelector";
+
 
 const ChatFeed = () => {
   // Session-based setup
@@ -129,6 +131,13 @@ const ChatFeed = () => {
           </motion.div>
         ))}
         <div ref={chatEndRef} />
+      </div>
+
+      {/* new code */}
+
+            <div className="flex justify-between items-center mb-4">
+        <h2 className="text-white/80 text-xl font-semibold">MasterX Mode</h2>
+        <ModeSelector onChange={(mode) => console.log("Selected mode:", mode)} />
       </div>
 
       {/* Input Bar */}
